@@ -19,7 +19,7 @@ class DerpEr extends Component
     public function saveDerp()
     {
         $this->validate([
-            'title' => 'required|string|max:255',
+            'title' => 'required|string|max:64',
             'content' => 'nullable|string'
         ]);
 

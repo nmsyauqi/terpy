@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('derps', function (Blueprint $table) {
             $table->id(); //id derp (primary key)
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); //id pengguna (foreign key)
-            $table->string('name'); //nama derp
+            $table->string('title'); //judul derp
+            $table->text('content')->nullable(); //isi derp
             $table->timestamps();
         });
     }

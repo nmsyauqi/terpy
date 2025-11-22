@@ -11,7 +11,8 @@ class Derp extends Model
 
     protected $fillable = [
         'user_id',
-        'name',
+        'title',
+        'content',
     ];
 
     public function user()

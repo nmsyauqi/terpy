@@ -16,11 +16,11 @@ class DerpEr extends Component
                             ->get();
     }
 
-    public function createDerp()
+    public function saveDerp()
     {
         $this->validate([
-            'title' => 'required|string|max:64',
-            'content' => 'nullable|string',
+            'title' => 'required|string|max:255',
+            'content' => 'nullable|string'
         ]);
 
         Derp::create([
@@ -29,10 +29,10 @@ class DerpEr extends Component
             'content' => $this->content,
         ]);
 
-        $this->reset(['title', 'content']);
+        $this->title = '';
+        $this->content = '';
         $this->loadDerp();
     }
-
     public function render()
     {
         return view('livewire.derp-er');

@@ -1,15 +1,5 @@
 <div class="p-6 font-mono">
     
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
-        .font-mc { font-family: 'VT323', monospace; }
-        .mc-btn {
-            box-shadow: inset -4px -4px 0px 0px rgba(0,0,0,0.5), inset 4px 4px 0px 0px rgba(255,255,255,0.5);
-        }
-        .mc-btn:active {
-            box-shadow: inset 4px 4px 0px 0px rgba(0,0,0,0.5), inset -4px -4px 0px 0px rgba(255,255,255,0.5);
-        }
-    </style>
 
     <div class="max-w-4xl mx-auto font-mc text-xl">
         

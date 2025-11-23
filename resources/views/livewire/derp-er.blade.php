@@ -1,6 +1,4 @@
 <div class="p-6 font-mono">
-    
-
     <div class="max-w-4xl mx-auto font-mc text-xl">
         
         @if (session()->has('message'))
@@ -28,24 +26,20 @@
                     @error('name') <span class="text-red-500">{{ $message }}</span> @enderror
                 </div>
 
-                <div class="grid grid-cols-3 gap-4 mb-4">
-                    <div>
-                        <label class="block text-red-400 mb-1">X</label>
-                        <input type="number" wire:model="cor_x" placeholder="0" 
-                               class="w-full bg-black bg-opacity-50 border-2 border-gray-500 text-white px-3 py-2 focus:border-red-400 focus:ring-0">
-                    </div>
-                    <div>
-                        <label class="block text-green-400 mb-1">Y</label>
-                        <input type="number" wire:model="cor_y" placeholder="0" 
-                               class="w-full bg-black bg-opacity-50 border-2 border-gray-500 text-white px-3 py-2 focus:border-green-400 focus:ring-0">
-                    </div>
-                    <div>
-                        <label class="block text-blue-400 mb-1">Z</label>
-                        <input type="number" wire:model="cor_z" placeholder="0" 
-                               class="w-full bg-black bg-opacity-50 border-2 border-gray-500 text-white px-3 py-2 focus:border-blue-400 focus:ring-0">
-                    </div>
+                <div class="mb-4">
+                    <label class="block text-gray-400 mb-1">Coordinates (X, Y, Z)</label>
+                    
+                    <input type="text" wire:model="corString" placeholder="Example: -240, 64, 120" 
+                           class="w-full bg-black bg-opacity-50 border-2 border-gray-500 text-white px-3 py-2 focus:border-green-400 focus:ring-0 font-mono tracking-wider">
+                    
+                    <p class="text-xs text-gray-500 mt-1">Format: number, number, number</p>
+                    
+                    @error('corString') 
+                        <span class="text-red-500 text-sm block mt-1 font-bold bg-red-900 bg-opacity-20 p-1">
+                            [!] {{ $message }}
+                        </span> 
+                    @enderror
                 </div>
-                @error('cor_x') <span class="text-red-500 text-sm">Coordinates required!</span> @enderror
 
                 <div class="mb-4">
                     <label class="block text-gray-400 mb-1">Description (Optional)</label>

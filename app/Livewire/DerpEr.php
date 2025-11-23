@@ -9,16 +9,41 @@ use Illuminate\Support\Facades\Auth;
 class DerpEr extends Component
 {
     public $derps;
-    public $name, $desc, $cor_x, $cor_y, $cor_z, $derpId;
+    public $name, $desc, $corString;
+    public $derpId;
     public $isEditing = false;
 
     protected $rules = [
         'name' => 'required|string|max:64',
         'desc' => 'nullable|string',
-        'cor_x' => 'required|integer',
-        'cor_y' => 'nullable|integer',
-        'cor_z' => 'required|integer'
+        'corString' => 'required|string',
     ];
+
+    private function parseCors()
+    {
+        // 1. Pecah berdasarkan koma
+        $parts = explode(',', $this->corString);
+
+        // 2. Bersihkan spasi (misal user ketik "12,  64" jadi "12","64")
+        $parts = array_map('trim', $parts);
+
+        // 3. Cek apakah ada 3 bagian?
+        if (count($parts) !== 3) {
+            return false; // Gagal kalau tidak ada 3 angka
+        }
+
+        // 4. Pastikan semuanya angka
+        if (!is_numeric($parts[0]) || !is_numeric($parts[1]) || !is_numeric($parts[2])) {
+            return false;
+        }
+
+        // 5. Kembalikan hasil bersih
+        return [
+            'x' => (int)$parts[0],
+            'y' => (int)$parts[1],
+            'z' => (int)$parts[2],
+        ];
+    }
 
     public function mount()
     {
@@ -35,13 +60,21 @@ class DerpEr extends Component
     {
         $this->validate();
 
+        $coords = $this->parseCors(); // <--- Sesuaikan dengan nama fungsi private di atas
+
+        if (!$coords) {
+            $this->addError('corString', 'Format salah! Gunakan: X, Y, Z (Contoh: 100, 64, -200)');
+            return;
+        }
+
         Derp::create([
             'user_id' => Auth::id(),
             'name' => $this->name,
             'desc' => $this->desc,
-            'cor_x' => $this->cor_x,
-            'cor_y' => $this->cor_y === '' ? null : $this->cor_y,
-            'cor_z' => $this->cor_z
+            // Masukkan hasil potongan ke database
+            'cor_x' => $coords['x'],
+            'cor_y' => $coords['y'],
+            'cor_z' => $coords['z']
         ]);
 
         $this->resetInput();
@@ -55,27 +88,28 @@ class DerpEr extends Component
         $this->derpId = $id;
         $this->name = $derp->name;
         $this->desc = $derp->desc;
-        $this->cor_x = $derp->cor_x;
-        $this->cor_y = $derp->cor_y;
-        $this->cor_z = $derp->cor_z;
-        
+        $this->corString = "{$derp->cor_x}, {$derp->cor_y}, {$derp->cor_z}";
         $this->isEditing = true;
     }
 
     public function update()
     {
         $this->validate();
+        $coords = $this->parseCors();
+        
+        if (!$coords) {
+            $this->addError('corString', 'Format salah! Gunakan: X, Y, Z');
+            return;
+        }
 
         if ($this->derpId) {
             $derp = Derp::findOrFail($this->derpId);
-            
             $derp->update([
                 'name' => $this->name,
                 'desc' => $this->desc,
-                'cor_x' => $this->cor_x,
-                // LOGIKA PERBAIKAN: Ubah string kosong jadi NULL
-                'cor_y' => $this->cor_y === '' ? null : $this->cor_y,
-                'cor_z' => $this->cor_z
+                'cor_x' => $coords['x'],
+                'cor_y' => $coords['y'],
+                'cor_z' => $coords['z']
             ]);
             
             $this->resetInput();
@@ -93,12 +127,10 @@ class DerpEr extends Component
     {
         $this->name = '';
         $this->desc = '';
-        $this->cor_x = '';
-        $this->cor_y = '';
-        $this->cor_z = '';
+        $this->corString = ''; 
         $this->derpId = null;
         $this->isEditing = false;
-        $this->loadDerp();
+        $this->loadDerp();    
     }
     public function render()
     {

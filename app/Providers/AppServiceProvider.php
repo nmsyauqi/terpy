@@ -10,9 +10,11 @@ class AppServiceProvider extends ServiceProvider
      * Register any application services.
      */
     public function register(): void
-    {
+{
+    if ($this->app->environment('production') || file_exists(base_path('../public_html'))) {
         $this->app->usePublicPath(base_path('../public_html'));
     }
+}
 
     /**
      * Bootstrap any application services.

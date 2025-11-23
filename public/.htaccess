@@ -1,25 +1,27 @@
 <IfModule mod_rewrite.c>
-    <IfModule mod_negotiation.c>
-        Options -MultiViews -Indexes
-    </IfModule>
-
+    # 1. Aktifkan Rewrite Engine
     RewriteEngine On
+    
+    # ====================================================
+    # FORCE HTTPS REDIRECT (BARU DITAMBAHKAN)
+    # ====================================================
+    # Cek jika HTTPS mati (off)
+    RewriteCond %{HTTPS} off
+    # Redirect semua request ke https://...
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-    # Handle Authorization Header
-    RewriteCond %{HTTP:Authorization} .
-    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+    # ====================================================
+    # KEAMANAN LARAVEL
+    # ====================================================
+    # Blokir akses langsung ke file/folder sensitif
+    RewriteRule ^(\.env|composer\.json|composer\.lock|artisan|package\.json|phpunit\.xml|storage/logs/.*)$ - [F]
 
-    # Handle X-XSRF-Token Header
-    RewriteCond %{HTTP:x-xsrf-token} .
-    RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
-
-    # Redirect Trailing Slashes If Not A Folder...
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_URI} (.+)/$
-    RewriteRule ^ %1 [L,R=301]
-
-    # Send Requests To Front Controller...
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ index.php [L]
+    # ====================================================
+    # ROUTING KE FOLDER PUBLIC
+    # ====================================================
+    # Jika URL yang diminta BUKAN diawali dengan /public/ ...
+    RewriteCond %{REQUEST_URI} !^/public/
+    
+    # ... maka arahkan (rewrite) ke folder public/
+    RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>

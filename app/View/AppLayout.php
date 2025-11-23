@@ -9,6 +9,9 @@ class AppLayout extends Component
 {
     public function render(): View
     {
-        return view('layouts.app');
+        // UBAH BARIS INI
+        // Dari: return view('layouts.app');
+        // Menjadi:
+        return view('components.layouts.app'); 
     }
 }

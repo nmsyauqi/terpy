@@ -7,15 +7,15 @@
 @source '../../vendor/livewire/flux/stubs/**/*.blade.php';
 
 @font-face {
-    font-family: 'ErtaPixeled'; /* Nama bebas, untuk dipanggil nanti */
-    src: url('/fonts/ErtaPixeled-Regular.otf') format('opentype'); /* Path ke folder public/fonts */
+    font-family: 'ErtaPixeled';
+    src: url('/fonts/ErtaPixeled-Regular.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
 }
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-    --font-mc: 'ErtaPixeled', monospace;
+        --font-mc: 'ErtaPixeled', monospace;
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
     
     --color-zinc-50: #fafafa;

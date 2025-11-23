@@ -36,7 +36,7 @@
                     </div>
                     <div>
                         <label class="block text-green-400 mb-1">Y</label>
-                        <input type="number" wire:model="cor_y" placeholder="64" 
+                        <input type="number" wire:model="cor_y" placeholder="0" 
                                class="w-full bg-black bg-opacity-50 border-2 border-gray-500 text-white px-3 py-2 focus:border-green-400 focus:ring-0">
                     </div>
                     <div>

@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id(); //id derp (primary key)
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); //id pengguna (foreign key)
             $table->string('name'); //judul derp
-            $table->integer('cor_x')->nullable(); //koordinat x
+            $table->integer('cor_x'); //koordinat x
             $table->integer('cor_y')->nullable(); //koordinat y 
-            $table->integer('cor_z')->nullable(); //koordinat z 
+            $table->integer('cor_z'); //koordinat z 
             $table->text('desc')->nullable(); //isi derp
             $table->timestamps();
         });

@@ -6,6 +6,13 @@
 @source '../../vendor/livewire/flux-pro/stubs/**/*.blade.php';
 @source '../../vendor/livewire/flux/stubs/**/*.blade.php';
 
+@font-face {
+    font-family: 'ErtaPixeled'; /* Nama bebas, untuk dipanggil nanti */
+    src: url('/fonts/ErtaPixeled-Regular.otf') format('opentype'); /* Path ke folder public/fonts */
+    font-weight: normal;
+    font-style: normal;
+}
+
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {

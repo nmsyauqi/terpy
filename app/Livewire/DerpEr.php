@@ -9,16 +9,15 @@ use Illuminate\Support\Facades\Auth;
 class DerpEr extends Component
 {
     public $derps;
-    public $name, $desc, $cor_x, $cor_y, $cor_z;
-    public $derpId;
+    public $name, $desc, $cor_x, $cor_y, $cor_z, $derpId;
     public $isEditing = false;
 
     protected $rules = [
         'name' => 'required|string|max:64',
         'desc' => 'nullable|string',
-        'cor_x' => 'integer',
+        'cor_x' => 'required|integer',
         'cor_y' => 'nullable|integer',
-        'cor_z' => 'integer'
+        'cor_z' => 'required|integer'
     ];
 
     public function mount()
@@ -41,7 +40,7 @@ class DerpEr extends Component
             'name' => $this->name,
             'desc' => $this->desc,
             'cor_x' => $this->cor_x,
-            'cor_y' => $this->cor_y,
+            'cor_y' => $this->cor_y === '' ? null : $this->cor_y,
             'cor_z' => $this->cor_z
         ]);
 
@@ -69,11 +68,13 @@ class DerpEr extends Component
 
         if ($this->derpId) {
             $derp = Derp::findOrFail($this->derpId);
+            
             $derp->update([
                 'name' => $this->name,
                 'desc' => $this->desc,
                 'cor_x' => $this->cor_x,
-                'cor_y' => $this->cor_y,
+                // LOGIKA PERBAIKAN: Ubah string kosong jadi NULL
+                'cor_y' => $this->cor_y === '' ? null : $this->cor_y,
                 'cor_z' => $this->cor_z
             ]);
             

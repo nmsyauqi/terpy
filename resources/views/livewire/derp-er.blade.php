@@ -1,4 +1,4 @@
-<div class="p-6 font-mono">
+<div class="p-6">
     <div class="max-w-4xl mx-auto font-mc text-xl">
         
         @if (session()->has('message'))
@@ -26,7 +26,7 @@
                     @error('name') <span class="text-red-500">{{ $message }}</span> @enderror
                 </div>
 
-                <div class="mb-4">
+                <div class="mb-4"c>
                     <label class="block text-gray-400 mb-1">Coordinates (X, Y, Z)</label>
                     
                     <input type="text" wire:model="corString" placeholder="Example: -240, 64, 120" 

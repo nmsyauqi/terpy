@@ -30,7 +30,7 @@
                     <label class="block text-gray-400 mb-1">Coordinates (X, Y, Z)</label>
                     
                     <input type="text" wire:model="corString" placeholder="Example: -240, 64, 120" 
-                           class="w-full bg-black bg-opacity-50 border-2 border-gray-500 text-white px-3 py-2 focus:border-green-400 focus:ring-0 font-mono tracking-wider">
+                           class="w-full bg-black bg-opacity-50 border-2 border-gray-500 text-white px-3 py-2 focus:border-green-400 focus:ring-0 tracking-wider">
                     
                     <p class="text-xs text-gray-500 mt-1">Format: number, number, number</p>
                     

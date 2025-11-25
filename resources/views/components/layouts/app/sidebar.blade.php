@@ -31,11 +31,11 @@
 
             <!-- Desktop User Menu -->
             <flux:dropdown class="hidden lg:block" position="bottom" align="start">
-                <flux:profile
+                {{-- <flux:profile
                     :name="auth()->user()->name"
                     :initials="auth()->user()->initials()"
                     icon:trailing="chevrons-up-down"
-                />
+                /> --}}
 
                 <flux:menu class="w-[220px]">
                     <flux:menu.radio.group>
@@ -49,10 +49,10 @@
                                     </span>
                                 </span>
 
-                                <div class="grid flex-1 text-start text-sm leading-tight">
+                                {{-- <div class="grid flex-1 text-start text-sm leading-tight">
                                     <span class="truncate font-semibold">{{ auth()->user()->name }}</span>
                                     <span class="truncate text-xs">{{ auth()->user()->email }}</span>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </flux:menu.radio.group>
@@ -82,10 +82,10 @@
             <flux:spacer />
 
             <flux:dropdown position="top" align="end">
-                <flux:profile
+                {{-- <flux:profile
                     :initials="auth()->user()->initials()"
                     icon-trailing="chevron-down"
-                />
+                /> --}}
 
                 <flux:menu>
                     <flux:menu.radio.group>
@@ -99,10 +99,10 @@
                                     </span>
                                 </span>
 
-                                <div class="grid flex-1 text-start text-sm leading-tight">
+                                {{-- <div class="grid flex-1 text-start text-sm leading-tight">
                                     <span class="truncate font-semibold">{{ auth()->user()->name }}</span>
                                     <span class="truncate text-xs">{{ auth()->user()->email }}</span>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </flux:menu.radio.group>

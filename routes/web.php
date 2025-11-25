@@ -7,13 +7,22 @@ use App\Livewire\Settings\TwoFactor;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::redirect('/', '/dashboard');
+Route::view('/dashboard', 'dashboard')->name('dashboard');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+//Route::view('dashboard', 'dashboard')
+    //->middleware(['auth', 'verified'])
+    //->name('dashboard');
+
+// Route::middleware('guest')->group(function () {
+//     Route::
+// });
+
+// Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+Route::redirect('/admin/tasks', 'dashboard');
+Route::redirect('/admin', 'dashboard');
+
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 
 Route::redirect('/', '/dashboard');
-Route::view('/dashboard', 'dashboard')->name('dashboard');
+Route::get('/dashboard', 'dashboard')->name('dashboard');
 
 //Route::view('dashboard', 'dashboard')
     //->middleware(['auth', 'verified'])

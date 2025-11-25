@@ -20,7 +20,7 @@ Route::view('/dashboard', 'dashboard')->name('dashboard');
 
 // Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::redirect('/admin/tasks', 'dashboard');
+Route::redirect('/admin/tasks', '/dashboard');
 Route::redirect('/admin', '/dashboard');
 
 

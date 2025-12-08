@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
     <head>
         @include('partials.head')
     </head>
     <body class="min-h-screen bg-white dark:bg-zinc-800">
-        
         <flux:sidebar sticky stashable class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
             <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 
             <a href="{{ route('dashboard') }}" class="me-5 flex items-center space-x-2" wire:navigate>
-                <x-app-logo class="size-8" /> 
+                <x-app-logo class="size-8" />
             </a>
 
             <flux:navlist variant="outline">
@@ -17,7 +16,7 @@
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </flux:navlist.item>
-                    </flux:navlist.group>
+                </flux:navlist.group>
             </flux:navlist>
 
             <flux:spacer />
@@ -87,11 +86,7 @@
             </flux:dropdown>
         </flux:header>
 
-        <flux:main>
-            {{ $slot }}
-        </flux:main>
-
-        <flux:toast />
+        {{ $slot }}
 
         @fluxScripts
     </body>

@@ -41,6 +41,16 @@ class DerpEr extends Component
 
     public function mount()
     {
+        if (Auth::check() && session()->has('pending_waypoint')) {
+            $data = session()->pull('pending_waypoint');
+            
+            $this->name = $data['name'];
+            $this->desc = $data['desc'];
+            $this->corString = $data['corString'];
+
+            $this->store();
+        }
+
         $this->loadDerp();
     }
 
@@ -57,11 +67,17 @@ class DerpEr extends Component
 
     public function store()
     {
+        $this->validate();
+
         if (!Auth::check()) {
+            session()->put('pending_waypoint', [
+                'name' => $this->name,
+                'desc' => $this->desc,
+                'corString' => $this->corString,
+            ]);
+
             return redirect()->route('login');
         }
-
-        $this->validate();
 
         $coords = $this->parseCors();
 
@@ -81,6 +97,8 @@ class DerpEr extends Component
 
         $this->resetInput();
         session()->flash('message', 'Waypoint Saved!');
+        
+        $this->loadDerp();
     }
 
     public function edit($id)

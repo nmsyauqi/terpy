@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\DerpEr;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -7,22 +8,9 @@ use App\Livewire\Settings\TwoFactor;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 
-Route::redirect('/', '/dashboard');
-Route::view('/dashboard', 'dashboard')->name('dashboard');
-
-//Route::view('dashboard', 'dashboard')
-    //->middleware(['auth', 'verified'])
-    //->name('dashboard');
-
-// Route::middleware('guest')->group(function () {
-//     Route::
-// });
-
-// Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-Route::redirect('/admin/tasks', '/dashboard');
-Route::redirect('/admin', '/dashboard');
-
+Route::redirect('/dashboard', '/derp-er');
+Route::redirect('/', '/derp-er');
+Route::get('/derp-er', DerpEr::class)->name('derp-er');
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
@@ -33,12 +21,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('settings/two-factor', TwoFactor::class)
         ->middleware(
-            when(
-                Features::canManageTwoFactorAuthentication()
-                    && Features::optionEnabled(Features::twoFactorAuthentication(), 'confirmPassword'),
-                ['password.confirm'],
-                [],
-            ),
+            (Features::canManageTwoFactorAuthentication() 
+                && Features::optionEnabled(Features::twoFactorAuthentication(), 'confirmPassword'))
+            ? ['password.confirm']
+            : []
         )
         ->name('two-factor.show');
 });

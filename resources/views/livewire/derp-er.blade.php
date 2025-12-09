@@ -1,6 +1,29 @@
 <div class="p-6">
     <div class="max-w-4xl mx-auto font-mc text-xl">
         
+        <div class="flex justify-between items-center mb-6 border-b-4 border-gray-600 pb-4">
+            <h1 class="text-4xl text-white drop-shadow-md font-bold">TERPY <span class="text-yellow-400">WAYPOINTS</span></h1>
+            
+            <div class="flex gap-4">
+                @auth
+                    <span class="text-gray-300 self-center">Hi, {{ auth()->user()->name }}</span>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="bg-red-700 hover:bg-red-600 text-white px-4 py-2 border-2 border-black mc-btn text-sm">
+                            LOGOUT
+                        </button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 border-2 border-black mc-btn text-sm">
+                        LOGIN
+                    </a>
+                    <a href="{{ route('register') }}" class="bg-green-600 hover:bg-green-500 text-white px-4 py-2 border-2 border-black mc-btn text-sm">
+                        REGISTER
+                    </a>
+                @endauth
+            </div>
+        </div>
+
         @if (session()->has('message'))
             <div class="mb-4 bg-green-600 border-4 border-green-800 text-white p-2 shadow-lg">
                 [!] {{ session('message') }}
@@ -26,7 +49,7 @@
                     @error('name') <span class="text-red-500">{{ $message }}</span> @enderror
                 </div>
 
-                <div class="mb-4"c>
+                <div class="mb-4">
                     <label class="block text-gray-400 mb-1">Coordinates (X, Y, Z)</label>
                     
                     <input type="text" wire:model="corString" placeholder="Example: -240, 64, 120" 
@@ -62,7 +85,7 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            @foreach($derps as $derp)
+            @forelse($derps as $derp)
                 <div class="bg-gray-700 border-4 border-black p-4 relative group hover:bg-gray-600 transition-colors">
                     <div class="flex justify-between items-start mb-2">
                         <h4 class="text-2xl text-yellow-400 drop-shadow-sm">{{ $derp->name }}</h4>
@@ -86,7 +109,17 @@
                         </button>
                     </div>
                 </div>
-            @endforeach
+            @empty
+                @if(auth()->check())
+                    <div class="col-span-1 md:col-span-2 text-center text-gray-500 py-8">
+                        No waypoints saved yet.
+                    </div>
+                @else
+                    <div class="col-span-1 md:col-span-2 text-center text-gray-500 py-8">
+                        Login to see your saved waypoints.
+                    </div>
+                @endif
+            @endforelse
         </div>
     </div>
 </div>

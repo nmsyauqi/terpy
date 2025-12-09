@@ -21,23 +21,17 @@ class DerpEr extends Component
 
     private function parseCors()
     {
-        // 1. Pecah berdasarkan koma
         $parts = explode(',', $this->corString);
-
-        // 2. Bersihkan spasi (misal user ketik "12,  64" jadi "12","64")
         $parts = array_map('trim', $parts);
 
-        // 3. Cek apakah ada 3 bagian?
         if (count($parts) !== 3) {
-            return false; // Gagal kalau tidak ada 3 angka
+            return false;
         }
 
-        // 4. Pastikan semuanya angka
         if (!is_numeric($parts[0]) || !is_numeric($parts[1]) || !is_numeric($parts[2])) {
             return false;
         }
 
-        // 5. Kembalikan hasil bersih
         return [
             'x' => (int)$parts[0],
             'y' => (int)$parts[1],
@@ -49,18 +43,27 @@ class DerpEr extends Component
     {
         $this->loadDerp();
     }
+
     public function loadDerp()
     {
-        $this->derps = Derp::where('user_id', Auth::id())
+        if (Auth::check()) {
+            $this->derps = Derp::where('user_id', Auth::id())
                             ->latest()
                             ->get();
+        } else {
+            $this->derps = collect();
+        }
     }
 
     public function store()
     {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
         $this->validate();
 
-        $coords = $this->parseCors(); // <--- Sesuaikan dengan nama fungsi private di atas
+        $coords = $this->parseCors();
 
         if (!$coords) {
             $this->addError('corString', 'Format salah! Gunakan: X, Y, Z (Contoh: 100, 64, -200)');
@@ -71,7 +74,6 @@ class DerpEr extends Component
             'user_id' => Auth::id(),
             'name' => $this->name,
             'desc' => $this->desc,
-            // Masukkan hasil potongan ke database
             'cor_x' => $coords['x'],
             'cor_y' => $coords['y'],
             'cor_z' => $coords['z']
@@ -83,8 +85,16 @@ class DerpEr extends Component
 
     public function edit($id)
     {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
         $derp = Derp::findOrFail($id);
         
+        if ($derp->user_id !== Auth::id()) {
+            return;
+        }
+
         $this->derpId = $id;
         $this->name = $derp->name;
         $this->desc = $derp->desc;
@@ -94,6 +104,10 @@ class DerpEr extends Component
 
     public function update()
     {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
         $this->validate();
         $coords = $this->parseCors();
         
@@ -104,6 +118,11 @@ class DerpEr extends Component
 
         if ($this->derpId) {
             $derp = Derp::findOrFail($this->derpId);
+            
+            if ($derp->user_id !== Auth::id()) {
+                return;
+            }
+
             $derp->update([
                 'name' => $this->name,
                 'desc' => $this->desc,
@@ -119,8 +138,16 @@ class DerpEr extends Component
 
     public function delete($id)
     {
-        Derp::find($id)->delete();
-        $this->loadDerp();
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        $derp = Derp::find($id);
+        
+        if ($derp && $derp->user_id === Auth::id()) {
+            $derp->delete();
+            $this->loadDerp();
+        }
     }
 
     public function resetInput()
@@ -132,6 +159,7 @@ class DerpEr extends Component
         $this->isEditing = false;
         $this->loadDerp();    
     }
+
     public function render()
     {
         return view('livewire.derp-er');
